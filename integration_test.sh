@@ -8,7 +8,7 @@ USERNAME=${USERNAME:-u`date +%s`}
 EMAIL=${EMAIL:-$USERNAME@mail.com}
 PASSWORD=${PASSWORD:-password}
 
-npx newman run $SCRIPTDIR/realworld.postman_collection.json \
+npx newman run $SCRIPTDIR/realworld.postman.json \
   --delay-request 500 \
   --global-var "APIURL=$APIURL" \
   --global-var "USERNAME=$USERNAME" \
