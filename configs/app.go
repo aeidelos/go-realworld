@@ -10,6 +10,7 @@ import (
 type AppConfig struct {
     AppName  string
     AppPort  string
+    AppLang  string
     DbConfig DbConfig
 }
 
@@ -32,6 +33,7 @@ func Config() AppConfig {
         appConfig = AppConfig{
             AppName: GetStringConfiguration("APP_NAME"),
             AppPort: GetStringConfiguration("APP_PORT"),
+            AppLang: GetStringConfiguration("APP_LANG"),
             DbConfig: NewDbConfig(),
         }
     })

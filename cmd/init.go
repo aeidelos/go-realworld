@@ -22,7 +22,7 @@ var initCmd = &cobra.Command{
     Run: func(cmd *cobra.Command, args []string) {
         appConfig := configs.Config()
         i18n.Init()
-        logrus.Info(fmt.Sprintf(constant.INIT_MESSAGE, appConfig.AppName, appConfig.AppPort))
+        logrus.Info(fmt.Sprintf(constant.InitMessage, appConfig.AppName, appConfig.AppPort))
         pkg.StartAPIServer(appConfig)
     },
 }

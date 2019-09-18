@@ -1,37 +1,38 @@
 package response
 
 import (
+    "github.com/neotroops/go-realworld/configs"
     "github.com/neotroops/go-realworld/i18n"
     "log"
     "strconv"
 )
 
-type Response struct {
-    Data    interface{}     `json:"data"`
-    Success bool            `json:"success"`
-    Errors  []ErrorResponse `json:"errors"`
-}
 
 type ErrorResponse struct {
-    Code       string `json:"code"`
+    Code       int    `json:"code"`
     Message    string `json:"message"`
     Status     bool   `json:"status"`
-    StatusCode int
+    StatusCode int    `json:"status_code"`
 }
 
 func (e *ErrorResponse) Error() string {
     return e.Message
 }
 
-func NewErrorResponse(code string, lang string) ErrorResponse {
-    statusCode, err := strconv.Atoi(i18n.ResponseI18nMap[lang][code]["status_code"])
+func NewErrorResponse(key string, status bool, config configs.AppConfig) ErrorResponse {
+    lang := config.AppLang
+    statusCode, err := strconv.Atoi(i18n.ResponseI18nMap[lang][key]["status_code"])
+    if err != nil {
+        log.Fatal(err)
+    }
+    code, err := strconv.Atoi(i18n.ResponseI18nMap[lang][key]["code"])
     if err != nil {
         log.Fatal(err)
     }
     return ErrorResponse{
-        Message:    i18n.ResponseI18nMap[lang][code]["message"],
-        Code:       i18n.ResponseI18nMap[lang][code]["code"],
+        Message:    i18n.ResponseI18nMap[lang][key]["message"],
+        Code:       code,
         StatusCode: statusCode,
-        Status:     false,
+        Status:     status,
     }
 }
