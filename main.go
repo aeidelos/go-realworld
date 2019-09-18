@@ -1,5 +1,7 @@
 package main
 
+import "github.com/neotroops/go-realworld/cmd"
+
 func main() {
-    println("hello world")
+    cmd.Exec()
 }
