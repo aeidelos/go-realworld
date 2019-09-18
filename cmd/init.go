@@ -3,16 +3,16 @@ package cmd
 import (
     "database/sql"
     "fmt"
+    _ "github.com/go-sql-driver/mysql"
     "github.com/golang-migrate/migrate"
     "github.com/golang-migrate/migrate/database/mysql"
+    _ "github.com/golang-migrate/migrate/source/file"
     "github.com/neotroops/go-realworld/configs"
     "github.com/neotroops/go-realworld/constant"
     "github.com/neotroops/go-realworld/i18n"
     "github.com/neotroops/go-realworld/pkg"
     "github.com/sirupsen/logrus"
     "github.com/spf13/cobra"
-    _ "github.com/go-sql-driver/mysql"
-    _ "github.com/golang-migrate/migrate/source/file"
     "os"
 )
 
@@ -38,7 +38,7 @@ var migrateCmd = &cobra.Command{
         dbHost := appConfig.DbConfig.DbHost
         dbPort := appConfig.DbConfig.DbPort
         dbName := appConfig.DbConfig.DbName
-        db, _ := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true", dbUser, dbPassword, dbHost, dbPort,dbName))
+        db, _ := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true", dbUser, dbPassword, dbHost, dbPort, dbName))
         driver, _ := mysql.WithInstance(db, &mysql.Config{})
         m, _ := migrate.NewWithDatabaseInstance(
             "file://db/",
