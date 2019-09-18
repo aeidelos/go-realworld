@@ -1,0 +1,4 @@
+UnauthorizedAccess:
+  code: 4001
+  message: "Tidak dapat melakukan aksi.."
+  status_code: 403

@@ -7,6 +7,7 @@ import (
     "github.com/golang-migrate/migrate/database/mysql"
     "github.com/neotroops/go-realworld/configs"
     "github.com/neotroops/go-realworld/constant"
+    "github.com/neotroops/go-realworld/i18n"
     "github.com/neotroops/go-realworld/pkg"
     "github.com/sirupsen/logrus"
     "github.com/spf13/cobra"
@@ -20,6 +21,7 @@ var initCmd = &cobra.Command{
     Short: "Go lang real world implementation",
     Run: func(cmd *cobra.Command, args []string) {
         appConfig := configs.Config()
+        i18n.Init()
         logrus.Info(fmt.Sprintf(constant.INIT_MESSAGE, appConfig.AppName, appConfig.AppPort))
         pkg.StartAPIServer(appConfig)
     },

@@ -9,3 +9,4 @@ vendor
 .DS_Store
 build
 application.yaml
+i18n_assets.go

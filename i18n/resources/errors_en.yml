@@ -1,0 +1,4 @@
+UnauthorizedAccess:
+  code: 4001
+  message: "Unauthorized access."
+  status_code: 403
