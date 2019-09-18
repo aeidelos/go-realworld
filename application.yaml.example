@@ -1,5 +1,7 @@
 APP_NAME: "Go Real World"
 APP_PORT: "3000"
+APP_LANG: "en"
+APP_ENV: "dev"
 DB_USER: "root"
 DB_PASSWORD: ""
 DB_HOST: "localhost"

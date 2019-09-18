@@ -22,6 +22,10 @@ var initCmd = &cobra.Command{
     Run: func(cmd *cobra.Command, args []string) {
         appConfig := configs.Config()
         i18n.Init()
+        if appConfig.AppEnv == "dev" {
+            logrus.SetReportCaller(true)
+            logrus.SetLevel(logrus.DebugLevel)
+        }
         logrus.Info(fmt.Sprintf(constant.InitMessage, appConfig.AppName, appConfig.AppPort))
         pkg.StartAPIServer(appConfig)
     },
@@ -31,7 +35,6 @@ var migrateCmd = &cobra.Command{
     Use:   "migrate",
     Short: "Go lang real world implementation",
     Run: func(cmd *cobra.Command, args []string) {
-        logrus.SetReportCaller(true)
         appConfig := configs.Config()
         dbUser := appConfig.DbConfig.DbUser
         dbPassword := appConfig.DbConfig.DbPassword

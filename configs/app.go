@@ -11,6 +11,7 @@ type AppConfig struct {
     AppName  string
     AppPort  string
     AppLang  string
+    AppEnv   string
     DbConfig DbConfig
 }
 
@@ -31,9 +32,10 @@ func Config() AppConfig {
     viper.AutomaticEnv()
     once.Do(func() {
         appConfig = AppConfig{
-            AppName: GetStringConfiguration("APP_NAME"),
-            AppPort: GetStringConfiguration("APP_PORT"),
-            AppLang: GetStringConfiguration("APP_LANG"),
+            AppName:  GetStringConfiguration("APP_NAME"),
+            AppPort:  GetStringConfiguration("APP_PORT"),
+            AppLang:  GetStringConfiguration("APP_LANG"),
+            AppEnv:   GetStringConfiguration("APP_ENV"),
             DbConfig: NewDbConfig(),
         }
     })
