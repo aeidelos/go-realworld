@@ -5,6 +5,7 @@ type DbConfig struct {
     DbPassword string
     DbHost     string
     DbPort     string
+    DbName     string
 }
 
 func NewDbConfig() DbConfig {
@@ -13,5 +14,6 @@ func NewDbConfig() DbConfig {
         DbPassword: GetStringConfiguration("DB_PASSWORD"),
         DbHost:     GetStringConfiguration("DB_HOST"),
         DbPort:     GetStringConfiguration("DB_PORT"),
+        DbName:     GetStringConfiguration("DB_NAME"),
     }
 }

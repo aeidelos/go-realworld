@@ -37,7 +37,8 @@ var migrateCmd = &cobra.Command{
         dbPassword := appConfig.DbConfig.DbPassword
         dbHost := appConfig.DbConfig.DbHost
         dbPort := appConfig.DbConfig.DbPort
-        db, _ := sql.Open("mysql", dbUser+":"+dbPassword+"@tcp("+dbHost+":"+dbPort+")/golang?multiStatements=true")
+        dbName := appConfig.DbConfig.DbName
+        db, _ := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true", dbUser, dbPassword, dbHost, dbPort,dbName))
         driver, _ := mysql.WithInstance(db, &mysql.Config{})
         m, _ := migrate.NewWithDatabaseInstance(
             "file://db/",
