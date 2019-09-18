@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/neotroops/go-realworld/configs"
     "github.com/neotroops/go-realworld/constant"
+    "github.com/neotroops/go-realworld/pkg"
     "github.com/sirupsen/logrus"
     "github.com/spf13/cobra"
     "os"
@@ -15,6 +16,7 @@ var initCmd = &cobra.Command{
     Run: func(cmd *cobra.Command, args []string) {
         appConfig := configs.Config()
         logrus.Info(fmt.Sprintf(constant.INIT_MESSAGE, appConfig.AppName, appConfig.AppPort))
+        pkg.StartAPIServer(appConfig)
     },
 }
 
