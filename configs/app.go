@@ -8,13 +8,14 @@ import (
 )
 
 type AppConfig struct {
-    AppName string
-    AppPort string
+    AppName  string
+    AppPort  string
+    DbConfig DbConfig
 }
 
 var (
     appConfig AppConfig
-    once sync.Once
+    once      sync.Once
 )
 
 func Config() AppConfig {
@@ -29,10 +30,10 @@ func Config() AppConfig {
     viper.AutomaticEnv()
     once.Do(func() {
         appConfig = AppConfig{
-            AppName:  GetStringConfiguration("APP_NAME"),
-            AppPort:  GetStringConfiguration("APP_PORT"),
+            AppName: GetStringConfiguration("APP_NAME"),
+            AppPort: GetStringConfiguration("APP_PORT"),
+            DbConfig: NewDbConfig(),
         }
     })
     return appConfig
 }
-
