@@ -8,7 +8,7 @@ import (
     "github.com/golang-migrate/migrate/database/mysql"
     _ "github.com/golang-migrate/migrate/source/file"
     "github.com/neotroops/go-realworld/configs"
-    "github.com/neotroops/go-realworld/constant"
+    "github.com/neotroops/go-realworld/constants"
     "github.com/neotroops/go-realworld/i18n"
     "github.com/neotroops/go-realworld/pkg"
     "github.com/sirupsen/logrus"
@@ -26,7 +26,7 @@ var initCmd = &cobra.Command{
             logrus.SetReportCaller(true)
             logrus.SetLevel(logrus.DebugLevel)
         }
-        logrus.Info(fmt.Sprintf(constant.InitMessage, config.AppName, config.AppPort))
+        logrus.Info(fmt.Sprintf(constants.InitMessage, config.AppName, config.AppPort))
         pkg.StartAPIServer(config)
     },
 }

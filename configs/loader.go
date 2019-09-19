@@ -12,6 +12,11 @@ func GetStringConfiguration(key string) string {
     return viper.GetString(key)
 }
 
+func GetIntConfiguration(key string) int {
+    checkKeyAvailable(key)
+    return viper.GetInt(key)
+}
+
 func checkKeyAvailable(key string) {
     if !viper.IsSet(key) {
         logrus.Panic(fmt.Sprintf("keys %s is not set", key))
