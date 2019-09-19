@@ -1,0 +1,22 @@
+image: golang:1.12.6
+
+stages:
+  - build
+  - test
+
+fetch module dependencies:
+  stage: build
+  script:
+    - GO111MODULE=on make dependency
+  artifacts:
+    paths:
+      - .
+
+lint and test:
+  stage: test
+  script:
+    - export GO111MODULE=on
+    - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.17.1
+    - golangci-lint --version
+    - golangci-lint run ./... -v --color=always
+    - go test ./...
