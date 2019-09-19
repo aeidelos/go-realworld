@@ -1,43 +1,17 @@
 package configs
 
-import (
-    "github.com/sirupsen/logrus"
-    "github.com/spf13/viper"
-    "os"
-    "sync"
-)
-
-type AppConfig struct {
-    AppName  string
-    AppPort  string
-    AppLang  string
-    AppEnv   string
-    DbConfig DbConfig
+type App struct {
+    AppName string
+    AppPort string
+    AppLang string
+    AppEnv  string
 }
 
-var (
-    appConfig AppConfig
-    once      sync.Once
-)
-
-func Config() AppConfig {
-    viper.SetConfigName("application")
-    viper.AddConfigPath("./")
-    viper.SetConfigType("yaml")
-    if err := viper.ReadInConfig(); err != nil {
-        logrus.Panic(err)
-        os.Exit(1)
+func NewAppConfig() App {
+    return App{
+        AppName: GetStringConfiguration("APP_NAME"),
+        AppPort: GetStringConfiguration("APP_PORT"),
+        AppLang: GetStringConfiguration("APP_LANG"),
+        AppEnv:  GetStringConfiguration("APP_ENV"),
     }
-
-    viper.AutomaticEnv()
-    once.Do(func() {
-        appConfig = AppConfig{
-            AppName:  GetStringConfiguration("APP_NAME"),
-            AppPort:  GetStringConfiguration("APP_PORT"),
-            AppLang:  GetStringConfiguration("APP_LANG"),
-            AppEnv:   GetStringConfiguration("APP_ENV"),
-            DbConfig: NewDbConfig(),
-        }
-    })
-    return appConfig
 }

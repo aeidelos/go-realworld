@@ -1,6 +1,6 @@
 package configs
 
-type DbConfig struct {
+type Db struct {
     DbUser     string
     DbPassword string
     DbHost     string
@@ -8,8 +8,8 @@ type DbConfig struct {
     DbName     string
 }
 
-func NewDbConfig() DbConfig {
-    return DbConfig{
+func NewDbConfig() Db {
+    return Db{
         DbUser:     GetStringConfiguration("DB_USER"),
         DbPassword: GetStringConfiguration("DB_PASSWORD"),
         DbHost:     GetStringConfiguration("DB_HOST"),

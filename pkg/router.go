@@ -9,7 +9,7 @@ import (
     "time"
 )
 
-func StartAPIServer(config configs.AppConfig) {
+func StartAPIServer(config configs.App) {
     r := mux.NewRouter()
     defaultHandler := system.NewHandler()
     r.HandleFunc("/", defaultHandler.DefaultHandler)

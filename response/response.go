@@ -19,7 +19,7 @@ func (e *ErrorResponse) Error() string {
     return e.Message
 }
 
-func NewErrorResponse(key string, status bool, config configs.AppConfig) ErrorResponse {
+func NewErrorResponse(key string, status bool, config configs.App) ErrorResponse {
     lang := config.AppLang
     statusCode, err := strconv.Atoi(i18n.ResponseI18nMap[lang][key]["status_code"])
     if err != nil {

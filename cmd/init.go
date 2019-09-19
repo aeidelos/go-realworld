@@ -20,14 +20,14 @@ var initCmd = &cobra.Command{
     Use:   "gorealworld",
     Short: "Go lang real world implementation",
     Run: func(cmd *cobra.Command, args []string) {
-        appConfig := configs.Config()
+        config := configs.AllConfig().App
         i18n.Init()
-        if appConfig.AppEnv == "dev" {
+        if config.AppEnv == "dev" {
             logrus.SetReportCaller(true)
             logrus.SetLevel(logrus.DebugLevel)
         }
-        logrus.Info(fmt.Sprintf(constant.InitMessage, appConfig.AppName, appConfig.AppPort))
-        pkg.StartAPIServer(appConfig)
+        logrus.Info(fmt.Sprintf(constant.InitMessage, config.AppName, config.AppPort))
+        pkg.StartAPIServer(config)
     },
 }
 
@@ -35,12 +35,12 @@ var migrateCmd = &cobra.Command{
     Use:   "migrate",
     Short: "Go lang real world implementation",
     Run: func(cmd *cobra.Command, args []string) {
-        appConfig := configs.Config()
-        dbUser := appConfig.DbConfig.DbUser
-        dbPassword := appConfig.DbConfig.DbPassword
-        dbHost := appConfig.DbConfig.DbHost
-        dbPort := appConfig.DbConfig.DbPort
-        dbName := appConfig.DbConfig.DbName
+        config := configs.AllConfig().Db
+        dbUser := config.DbUser
+        dbPassword := config.DbPassword
+        dbHost := config.DbHost
+        dbPort := config.DbPort
+        dbName := config.DbName
         db, _ := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true", dbUser, dbPassword, dbHost, dbPort, dbName))
         driver, _ := mysql.WithInstance(db, &mysql.Config{})
         m, _ := migrate.NewWithDatabaseInstance(
