@@ -44,7 +44,7 @@ var migrateCmd = &cobra.Command{
         db, _ := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true", dbUser, dbPassword, dbHost, dbPort, dbName))
         driver, _ := mysql.WithInstance(db, &mysql.Config{})
         m, _ := migrate.NewWithDatabaseInstance(
-            "file://db/",
+            "file://db/migrations",
             "mysql",
             driver,
         )
