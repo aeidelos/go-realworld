@@ -14,12 +14,15 @@ import (
     "github.com/sirupsen/logrus"
     "github.com/spf13/cobra"
     "os"
+    "os/signal"
+    "syscall"
 )
 
 var initCmd = &cobra.Command{
     Use:   "gorealworld",
     Short: "Go lang real world implementation",
     Run: func(cmd *cobra.Command, args []string) {
+        go serverShutdown()
         config := configs.AllConfig().App
         i18n.Init()
         if config.AppEnv == "dev" {
@@ -29,6 +32,16 @@ var initCmd = &cobra.Command{
         logrus.Info(fmt.Sprintf(constants.InitMessage, config.AppName, config.AppPort))
         pkg.StartAPIServer(config)
     },
+}
+
+func serverShutdown() {
+    s := make(chan os.Signal)
+    signal.Notify(s, os.Interrupt, syscall.SIGTERM)
+    go func() {
+        <- s
+        defer os.Exit(0)
+        logrus.Info("shutdown server")
+    }()
 }
 
 var migrateCmd = &cobra.Command{
