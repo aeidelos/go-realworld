@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS user (
     token       VARCHAR(255),
     username    VARCHAR(30),
     bio         VARCHAR(255),
-    image       VARCHAR(255),
+    image       VARCHAR(255) NULL,
     PRIMARY KEY (user_id)
 )

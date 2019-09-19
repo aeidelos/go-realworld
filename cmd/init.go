@@ -7,8 +7,10 @@ import (
     "github.com/golang-migrate/migrate"
     "github.com/golang-migrate/migrate/database/mysql"
     _ "github.com/golang-migrate/migrate/source/file"
+    "github.com/neotroops/go-realworld/components"
     "github.com/neotroops/go-realworld/configs"
     "github.com/neotroops/go-realworld/constants"
+    "github.com/neotroops/go-realworld/db/seeds"
     "github.com/neotroops/go-realworld/i18n"
     "github.com/neotroops/go-realworld/pkg"
     "github.com/sirupsen/logrus"
@@ -73,8 +75,18 @@ var migrateCmd = &cobra.Command{
     },
 }
 
+var seedCmd = &cobra.Command{
+    Use:   "seed",
+    Short: "Seed implementation",
+    Run: func(cmd *cobra.Command, args []string) {
+        db := components.GetConnection(configs.AllConfig().Db)
+        db.MustExec(seeds.UserCreate)
+    },
+}
+
 func Exec() {
     initCmd.AddCommand(migrateCmd)
+    initCmd.AddCommand(seedCmd)
     if err := initCmd.Execute(); err != nil {
         logrus.Panic(err)
         os.Exit(1)

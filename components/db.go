@@ -14,7 +14,7 @@ var once sync.Once
 
 var connection *sqlx.DB
 
-func getConnection(config configs.Db) *sqlx.DB {
+func GetConnection(config configs.Db) *sqlx.DB {
     once.Do(func() {
         conn, err := sqlx.Connect(config.DbDriver,
             fmt.Sprintf("%s:%s@tcp(%s:%v)/%s",
