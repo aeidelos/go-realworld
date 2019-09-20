@@ -1,10 +1,16 @@
 package models
 
-type User struct {
+type UserRegisterForm struct {
+    Username string `json:"username"`
+    Email string `json:"email"`
+    Password string `json:"password"`
+}
+
+type UserResponse struct {
     UserId   string `json:"user_id"`
-    email    string `json:"email"`
-    token    string `json:"token"`
-    username string `json:"username"`
-    bio      string `json:"bio"`
-    image    string `json:"image"`
+    Email string `json:"email"`
+    Token string `json:"token"`
+    Username string `json:"username"`
+    Bio string `json:"bio"`
+    Image string `json:"image, omitempty"`
 }

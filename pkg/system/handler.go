@@ -5,22 +5,22 @@ import (
     "net/http"
 )
 
-type HandlerContract interface {
-    DefaultHandler(w http.ResponseWriter, r *http.Request)
+type DefaultHandlerContract interface {
+    RootHandler(w http.ResponseWriter, r *http.Request)
     PingHandler(w http.ResponseWriter, r *http.Request)
 }
 
-type Handler struct {}
+type DefaultHandler struct {}
 
-func NewHandler() *Handler {
-    return &Handler{}
+func NewDefaultHandler() *DefaultHandler {
+    return &DefaultHandler{}
 }
 
-func (h *Handler) DefaultHandler(w http.ResponseWriter, r *http.Request) {
+func (h *DefaultHandler) RootHandler(w http.ResponseWriter, r *http.Request) {
     defaultResponseWriter(w, "Welcome to Neo Application")
 }
 
-func (h *Handler) PingHandler(w http.ResponseWriter, r *http.Request) {
+func (h *DefaultHandler) PingHandler(w http.ResponseWriter, r *http.Request) {
     defaultResponseWriter(w, "pong")
 }
 

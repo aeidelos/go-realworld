@@ -14,7 +14,9 @@ import (
 func StartAPIServer(config configs.App) {
     r := mux.NewRouter()
     n := negroni.New(negroni.NewRecovery(), negronilogrus.NewMiddleware())
+    services := NewServices()
     defaultRouter(r)
+    userRouter(r, services)
     n.UseHandler(r)
     srv := &http.Server{
         Handler: n,
@@ -26,7 +28,12 @@ func StartAPIServer(config configs.App) {
 }
 
 func defaultRouter (r *mux.Router) {
-    defaultHandler := system.NewHandler()
-    r.HandleFunc("/", defaultHandler.DefaultHandler)
+    defaultHandler := system.NewDefaultHandler()
+    r.HandleFunc("/", defaultHandler.RootHandler)
     r.HandleFunc("/ping", defaultHandler.PingHandler)
+}
+
+func userRouter (r *mux.Router, services ServiceInitializerContract) {
+    handler := NewUserHandler(services)
+    r.HandleFunc("/api/users", handler.Register).Methods(http.MethodPost)
 }
