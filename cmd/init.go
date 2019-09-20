@@ -11,7 +11,6 @@ import (
     "github.com/neotroops/go-realworld/configs"
     "github.com/neotroops/go-realworld/constants"
     "github.com/neotroops/go-realworld/db/seeds"
-    "github.com/neotroops/go-realworld/i18n"
     "github.com/neotroops/go-realworld/pkg"
     "github.com/sirupsen/logrus"
     "github.com/spf13/cobra"
@@ -26,7 +25,6 @@ var initCmd = &cobra.Command{
     Run: func(cmd *cobra.Command, args []string) {
         go serverShutdown()
         config := configs.AllConfig().App
-        i18n.Init()
         if config.AppEnv == "dev" {
             logrus.SetReportCaller(true)
             logrus.SetLevel(logrus.DebugLevel)

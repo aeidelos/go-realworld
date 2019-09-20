@@ -19,7 +19,7 @@ type ResponseI18n map[string]map[string]string
 
 var ResponseI18nMap map[string]ResponseI18n
 
-func Init() {
+func init() {
     ResponseI18nMap = make(map[string]ResponseI18n)
 
     langs := []string{LangEN, LangID}
