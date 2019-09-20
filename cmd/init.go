@@ -23,25 +23,16 @@ var initCmd = &cobra.Command{
     Use:   "gorealworld",
     Short: "Go lang real world implementation",
     Run: func(cmd *cobra.Command, args []string) {
-        go serverShutdown()
+        s := make(chan os.Signal)
+        signal.Notify(s, os.Interrupt, syscall.SIGTERM)
         config := configs.AllConfig().App
         if config.AppEnv == "dev" {
             logrus.SetReportCaller(true)
             logrus.SetLevel(logrus.DebugLevel)
         }
         logrus.Info(fmt.Sprintf(constants.InitMessage, config.AppName, config.AppPort))
-        pkg.StartAPIServer(config)
+        pkg.StartAPIServer(config, s)
     },
-}
-
-func serverShutdown() {
-    s := make(chan os.Signal)
-    signal.Notify(s, os.Interrupt, syscall.SIGTERM)
-    go func() {
-        <- s
-        defer os.Exit(0)
-        logrus.Info("shutdown server")
-    }()
 }
 
 var migrateCmd = &cobra.Command{
@@ -84,7 +75,6 @@ var seedCmd = &cobra.Command{
 
 func Exec() {
     initCmd.AddCommand(migrateCmd)
-    initCmd.AddCommand(seedCmd)
     if err := initCmd.Execute(); err != nil {
         logrus.Panic(err)
         os.Exit(1)

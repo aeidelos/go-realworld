@@ -1,6 +1,7 @@
 package pkg
 
 import (
+    "context"
     "github.com/gorilla/mux"
     negronilogrus "github.com/meatballhat/negroni-logrus"
     "github.com/neotroops/go-realworld/configs"
@@ -8,10 +9,13 @@ import (
     "github.com/sirupsen/logrus"
     "github.com/urfave/negroni"
     "net/http"
+    "os"
     "time"
 )
 
-func StartAPIServer(config configs.App) {
+func StartAPIServer(config configs.App, s <-chan os.Signal) {
+    var wait time.Duration
+    wait = time.Second * 1
     r := mux.NewRouter()
     n := negroni.New(negroni.NewRecovery(), negronilogrus.NewMiddleware())
     services := NewServices()
@@ -24,6 +28,17 @@ func StartAPIServer(config configs.App) {
         WriteTimeout: 15 * time.Second,
         ReadTimeout: 15 * time.Second,
     }
+    go func() {
+        <-s
+        ctx, cancel := context.WithTimeout(context.Background(), wait)
+        defer cancel()
+        if err := srv.Shutdown(ctx); err != nil {
+            logrus.Panic(err)
+            os.Exit(1)
+        }
+        logrus.Info("shutdown server")
+        os.Exit(0)
+    }()
     logrus.Fatal(srv.ListenAndServe())
 }
 
