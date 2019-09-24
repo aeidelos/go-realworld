@@ -74,7 +74,7 @@ var seedCmd = &cobra.Command{
 }
 
 func Exec() {
-    initCmd.AddCommand(migrateCmd)
+    initCmd.AddCommand(migrateCmd, seedCmd)
     if err := initCmd.Execute(); err != nil {
         logrus.Panic(err)
         os.Exit(1)

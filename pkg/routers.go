@@ -5,6 +5,7 @@ import (
     "github.com/gorilla/mux"
     negronilogrus "github.com/meatballhat/negroni-logrus"
     "github.com/neotroops/go-realworld/configs"
+    "github.com/neotroops/go-realworld/middleware"
     "github.com/neotroops/go-realworld/pkg/system"
     "github.com/sirupsen/logrus"
     "github.com/urfave/negroni"
@@ -43,12 +44,16 @@ func StartAPIServer(config configs.App, s <-chan os.Signal) {
 }
 
 func defaultRouter (r *mux.Router) {
+    amw := middleware.AuthenticationMiddleware{}
     defaultHandler := system.NewDefaultHandler()
-    r.HandleFunc("/", defaultHandler.RootHandler)
-    r.HandleFunc("/ping", defaultHandler.PingHandler)
+    s := r.PathPrefix("/").Subrouter()
+    s.HandleFunc("/", defaultHandler.RootHandler)
+    s.HandleFunc("/ping", defaultHandler.PingHandler)
+    s.Use(amw.Middleware)
 }
 
 func userRouter (r *mux.Router, services ServiceInitializerContract) {
     handler := NewUserHandler(services)
     r.HandleFunc("/api/users", handler.Register).Methods(http.MethodPost)
+    r.HandleFunc("/login", handler.Login).Methods(http.MethodPost)
 }
