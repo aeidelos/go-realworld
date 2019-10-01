@@ -1,6 +1,7 @@
 .PHONY: setup run test-api migrate
 
 setup:
+	export GO111MODULE=on 
 	go mod download
 
 run:
